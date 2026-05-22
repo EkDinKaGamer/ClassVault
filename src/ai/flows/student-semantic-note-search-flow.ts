@@ -124,6 +124,7 @@ const studentSemanticNoteSearchFlow = ai.defineFlow(
     const relevantNotes = relevantNoteIdsOutput
       .map(result => allNotes.find(note => note.id === result.id))
       .filter(Boolean) as NoteCardOutput[];
+    export type NoteCardOutput = z.infer<typeof NoteCardOutputSchema>;
 
     return relevantNotes;
   }
