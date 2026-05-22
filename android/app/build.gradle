@@ -17,15 +17,10 @@ android {
         }
     }
 
-    // ✅ FIX 1: Force Java 17
+    // ✅ ONLY THIS (correct Java config)
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
-    }
-
-    // ✅ FIX 2: Force ALL Java compile tasks to use 17 (CRITICAL)
-    tasks.withType(JavaCompile).configureEach {
-        options.release = 17
     }
 
     buildTypes {
