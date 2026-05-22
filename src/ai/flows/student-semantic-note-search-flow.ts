@@ -128,7 +128,7 @@ const studentSemanticNoteSearchFlow = ai.defineFlow(
     // Filter and return the full note data
     const relevantNotes = relevantNoteIdsOutput
       .map(result => allNotes.find(note => note.id === result.id))
-      .filter(Boolean) as NoteCardOutput[];
+      .filter(Boolean) as any[];
 
     return relevantNotes;
   }
