@@ -23,11 +23,10 @@ const firebaseConfig = {
 const StudentSemanticSearchInputSchema = z.object({
   query: z.string().describe('The natural language search query from the student.'),
 });
-
 export type StudentSemanticSearchInput = z.infer<typeof StudentSemanticSearchInputSchema>;
 
 /**
- * ✅ FIXED: Schema (removed invalid TypeScript inside object)
+ * Note schema
  */
 const NoteCardOutputSchema = z.object({
   id: z.string(),
@@ -42,7 +41,7 @@ const NoteCardOutputSchema = z.object({
 });
 
 /**
- * ✅ FIXED: Type declared OUTSIDE schema
+ * ✅ FIXED TYPE (IMPORTANT)
  */
 export type NoteCardOutput = z.infer<typeof NoteCardOutputSchema>;
 
@@ -50,7 +49,6 @@ export type NoteCardOutput = z.infer<typeof NoteCardOutputSchema>;
  * Output schema
  */
 const StudentSemanticSearchOutputSchema = z.array(NoteCardOutputSchema);
-
 export type StudentSemanticSearchOutput = z.infer<typeof StudentSemanticSearchOutputSchema>;
 
 /**
@@ -76,9 +74,10 @@ const semanticNoteSearchPrompt = ai.definePrompt({
     schema: z.array(z.object({ id: z.string() })),
   },
   prompt: `You are an intelligent search assistant for ClassVault.
+Your goal is to identify relevant study notes from the provided list based on the user's query.
 Query: {{{userQuery}}}
 Notes: {{json notesMetadata}}
-Return up to 5 most relevant note IDs.`,
+Identify up to 5 most relevant note 'id's. Return as JSON array of objects with 'id'.`,
 });
 
 /**
@@ -101,14 +100,14 @@ const studentSemanticNoteSearchFlow = ai.defineFlow(
     const allNotes = notesSnapshot.docs.map(doc => ({
       ...doc.data(),
       id: doc.id
-    })) as any[];
+    })) as NoteCardOutput[];
 
     if (allNotes.length === 0) return [];
 
     const notesMetadata = allNotes.map(note => ({
       id: note.id,
       title: note.title,
-      subject: note.subjectId,
+      subject: note.subject,
       chapter: note.chapter,
       description: note.description,
     }));
@@ -122,20 +121,14 @@ const studentSemanticNoteSearchFlow = ai.defineFlow(
       return [];
     }
 
-    /**
-     * ✅ FIXED: Type issue removed
-     */
     const relevantNotes = relevantNoteIdsOutput
       .map(result => allNotes.find(note => note.id === result.id))
-      .filter(Boolean) as any[];
+      .filter(Boolean) as NoteCardOutput[];
 
     return relevantNotes;
   }
 );
 
-/**
- * Export function
- */
 export async function studentSemanticNoteSearch(
   input: StudentSemanticSearchInput
 ): Promise<StudentSemanticSearchOutput> {
