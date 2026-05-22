@@ -6,9 +6,8 @@
  * - StudentSemanticSearchInput - The input type for the studentSemanticNoteSearch function.
  * - StudentSemanticSearchOutput - The return type for the studentSemanticNoteSearch function.
  */
-
+import { z } from "zod";
 import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
 import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getFirestore, collection, getDocs } from 'firebase/firestore';
 
@@ -33,6 +32,7 @@ export type StudentSemanticSearchInput = z.infer<typeof StudentSemanticSearchInp
  * Schema for a simplified note card output in search results.
  */
 const NoteCardOutputSchema = z.object({
+  type NoteCardOutput = z.infer<typeof NoteCardOutputSchema>;
   id: z.string().describe('Unique identifier for the note.'),
   title: z.string().describe('The title of the note.'),
   subject: z.string().optional().describe('The subject the note belongs to.'),
@@ -128,7 +128,7 @@ const studentSemanticNoteSearchFlow = ai.defineFlow(
     // Filter and return the full note data
     const relevantNotes = relevantNoteIdsOutput
       .map(result => allNotes.find(note => note.id === result.id))
-      .filter(Boolean) as NoteCardOutputSchema[];
+      .filter(Boolean) as NoteCardOutput[];
 
     return relevantNotes;
   }
