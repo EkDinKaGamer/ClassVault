@@ -12,12 +12,19 @@ class ErrorEmitter {
     this.listeners[event]!.push(listener);
   }
 
-  emit<K extends keyof ErrorEvents>(event: K, ...args: Parameters<ErrorEvents[K]>) {
-    this.listeners[event]?.forEach((listener) => listener(...args));
+  emit<K extends keyof ErrorEvents>(
+    event: K,
+    ...args: Parameters<ErrorEvents[K]>
+  ) {
+    this.listeners[event]?.forEach((listener) =>
+      (listener as (...args: any[]) => void)(...args)
+    );
   }
 
   off<K extends keyof ErrorEvents>(event: K, listener: ErrorEvents[K]) {
-    this.listeners[event] = this.listeners[event]?.filter((l) => l !== listener);
+    this.listeners[event] = this.listeners[event]?.filter(
+      (l) => l !== listener
+    );
   }
 }
 
