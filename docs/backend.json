@@ -1,0 +1,117 @@
+
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile information",
+      "type": "object",
+      "properties": {
+        "username": { "type": "string" },
+        "role": { "type": "string", "enum": ["student", "premium-student", "admin"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["username", "role"]
+    },
+    "Note": {
+      "title": "Note",
+      "description": "Study material note",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "subjectId": { "type": "string" },
+        "chapter": { "type": "string" },
+        "description": { "type": "string" },
+        "fileUrl": { "type": "string" },
+        "fileType": { "type": "string" },
+        "thumbnail": { "type": "string" },
+        "colorBanner": { "type": "string" },
+        "iconName": { "type": "string" },
+        "bannerType": { "type": "string", "enum": ["color", "icon", "image"] },
+        "isPremium": { "type": "boolean" },
+        "isPinned": { "type": "boolean" },
+        "viewCount": { "type": "number" },
+        "downloadCount": { "type": "number" },
+        "lastOpenedAt": { "type": "object" },
+        "lastDownloadedAt": { "type": "object" },
+        "uploadDate": { "type": "object" },
+        "createdAt": { "type": "object" }
+      },
+      "required": ["title", "subjectId", "fileUrl"]
+    },
+    "Subject": {
+      "title": "Subject",
+      "description": "Academic subject category",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "iconName": { "type": "string" },
+        "description": { "type": "string" },
+        "colorBanner": { "type": "string" },
+        "thumbnail": { "type": "string" },
+        "bannerType": { "type": "string", "enum": ["color", "icon", "image"] },
+        "createdAt": { "type": "object" }
+      },
+      "required": ["name", "iconName"]
+    },
+    "Announcement": {
+      "title": "Announcement",
+      "description": "Platform announcement",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "message": { "type": "string" },
+        "isPinned": { "type": "boolean" },
+        "publishDate": { "type": "object" },
+        "createdAt": { "type": "object" }
+      },
+      "required": ["title", "message"]
+    },
+    "AppSettings": {
+      "title": "AppSettings",
+      "description": "Global application configuration",
+      "type": "object",
+      "properties": {
+        "homeConfig": {
+          "type": "object",
+          "properties": {
+            "welcomeText": { "type": "string" },
+            "featuredMessage": { "type": "string" },
+            "visibleSections": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "appCodes": {
+          "type": "object",
+          "properties": {
+            "adminCode": { "type": "string" },
+            "premiumCode": { "type": "string" }
+          }
+        }
+      }
+    }
+  },
+  "auth": {
+    "providers": ["password"]
+  },
+  "firestore": {
+    "/users/{uid}": {
+      "schema": "#/entities/User",
+      "description": "User profile data"
+    },
+    "/notes/{noteId}": {
+      "schema": "#/entities/Note",
+      "description": "Study notes collection"
+    },
+    "/subjects/{subjectId}": {
+      "schema": "#/entities/Subject",
+      "description": "Subject categories"
+    },
+    "/announcements/{announcementId}": {
+      "schema": "#/entities/Announcement",
+      "description": "System announcements"
+    },
+    "/settings/{settingId}": {
+      "schema": "#/entities/AppSettings",
+      "description": "Global app settings"
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "name": "ClassVault",
+  "short_name": "ClassVault",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000"
+}

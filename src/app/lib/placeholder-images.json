@@ -1,0 +1,28 @@
+{
+  "placeholderImages": [
+    {
+      "id": "sci-thumb",
+      "description": "Science notes thumbnail",
+      "imageUrl": "https://picsum.photos/seed/sci-notes/600/400",
+      "imageHint": "science notes"
+    },
+    {
+      "id": "math-thumb",
+      "description": "Maths notes thumbnail",
+      "imageUrl": "https://picsum.photos/seed/math-notes/600/400",
+      "imageHint": "math equations"
+    },
+    {
+      "id": "eng-thumb",
+      "description": "English notes thumbnail",
+      "imageUrl": "https://picsum.photos/seed/eng-notes/600/400",
+      "imageHint": "english books"
+    },
+    {
+      "id": "premium-banner",
+      "description": "Premium access banner",
+      "imageUrl": "https://picsum.photos/seed/premium-banner/1200/400",
+      "imageHint": "education premium"
+    }
+  ]
+}
